@@ -1,0 +1,35 @@
+---
+description: Keamanan swap Jupiter — konfirmasi wajib, tidak auto-execute, lindungi secrets
+alwaysApply: true
+---
+
+# Jupiter Swap Safety
+
+## Konfirmasi execute
+
+- **Jangan** sign atau execute swap tanpa konfirmasi eksplisit user di chat (mis. "ya, jalankan swap").
+- Default ke **quote-only** (`npm run quote`). Gunakan `npm run swap` hanya setelah persetujuan.
+- Sebelum execute, tampilkan ringkasan: input/output mint, amount (raw), estimasi out, slippage, router, price impact, dan peringatan mainnet (biaya nyata).
+
+## Secrets
+
+- **Jangan** membaca, menampilkan, atau meng-commit isi `.env`, keypair JSON, private key, atau seed phrase.
+- **Jangan** hardcode `JUPITER_API_KEY` — hanya lewat environment.
+- Ingatkan user agar `.env` dan keypair ada di `.gitignore`.
+
+## Devnet vs mainnet
+
+- Jupiter Swap API v2 (`api.jup.ag/swap/v2`) hanya beroperasi di **mainnet**.
+- Jika user meminta swap devnet via Jupiter API, jelaskan keterbatasan dan tawarkan quote-only atau setup wallet devnet terpisah.
+- `SOLANA_RPC_URL` devnet tidak mengubah bahwa Jupiter order/execute adalah mainnet.
+
+## Risiko
+
+- Peringatkan slippage, biaya jaringan, dan token tidak terverifikasi.
+- Verifikasi mint address sebelum menyarankan execute.
+- Order/transaction TTL ~2 menit — re-quote jika kondisi pasar berubah.
+
+## CLI
+
+- `npm run swap` memerlukan `--confirmed` (setelah chat) atau input terminal `YES`.
+- Jangan menambahkan flag `--confirmed` tanpa persetujuan user di percakapan saat ini.
